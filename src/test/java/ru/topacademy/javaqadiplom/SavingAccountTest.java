@@ -84,5 +84,100 @@ public class SavingAccountTest {
         Assertions.assertEquals("Начальный баланс не может быть больше максимального баланса, а у вас: 15000", exception.getMessage());
     }
 
+     @Test
+    public void testMinBalanceNegative() {
+        // Проверяет, что конструктор выбрасывает IllegalArgumentException для отрицательного минимального баланса
+        IllegalArgumentException thrown = Assertions.assertThrows(
+                IllegalArgumentException.class,
+                () -> {
+                    SavingAccount account = new SavingAccount(1000, -10, 5000, 5);
+                },
+                "Ожидалось IllegalArgumentException для отрицательного минимального баланса"
+        );
 
+        // Проверяет, что сообщение об ошибке совпадает с ожидаемым
+        Assertions.assertEquals(
+                "Минимальный баланс не может быть отрицательным, а у вас: -10",
+                thrown.getMessage(),
+                "Сообщение об ошибке должно совпадать"
+        );
+    }
+
+    @Test
+    // Проверяет, что метод возвращает false, если сумма отрицательная
+    public void testPayAmountNegative() {
+        SavingAccount account = new SavingAccount(1000, 100, 5000, 5);
+
+        Assertions.assertFalse(account.pay(-100), "Ожидалось false для отрицательной суммы");
+    }
+
+    @Test
+    // Проверяет, что метод возвращает false, если сумма равна нулю
+    public void testPayAmountZero() {
+        SavingAccount account = new SavingAccount(1000, 100, 5000, 5);
+
+        Assertions.assertFalse(account.pay(0), "Ожидалось false для суммы, равной нулю");
+    }
+
+    @Test
+    public void testYearChange() {
+        // Проверяет, что метод yearChange правильно рассчитывает годовое изменение баланса
+        SavingAccount account = new SavingAccount(1000, 100, 5000, 5);
+        int expectedYearChange = (1000 * 5) / 100;
+        Assertions.assertEquals(expectedYearChange, account.yearChange(), "Метод yearChange должен правильно рассчитывать годовое изменение баланса.");
+    }
+
+    @Test
+    public void testGetMinBalance() {
+        // Проверяет, что метод getMinBalance возвращает правильное значение минимального баланса
+        SavingAccount account = new SavingAccount(1000, 100, 5000, 5);
+        Assertions.assertEquals(100, account.getMinBalance(), "Метод getMinBalance должен возвращать правильное значение минимального баланса.");
+    }
+
+    @Test
+    public void testGetMaxBalance() {
+        // Проверяет, что метод getMaxBalance возвращает правильное значение максимального баланса
+        SavingAccount account = new SavingAccount(1000, 100, 5000, 5);
+        Assertions.assertEquals(5000, account.getMaxBalance(), "Метод getMaxBalance должен возвращать правильное значение максимального баланса.");
+    }
+
+    @Test
+    // Проверяет, что баланс уменьшается на сумму оплаты
+    public void testPayReducesBalance() {
+        SavingAccount account = new SavingAccount(1000, 100, 5000, 5);
+        account.pay(200);
+        Assertions.assertEquals(800, account.getBalance(), "Баланс должен уменьшиться на сумму оплаты.");
+    }
+
+    @Test
+    // Проверяет, что метод возвращает true при успешной оплате
+    public void testPayReturnsTrue() {
+        SavingAccount account = new SavingAccount(1000, 100, 5000, 5);
+        boolean result = account.pay(200);
+        Assertions.assertTrue(result, "Метод должен вернуть true при успешной оплате.");
+    }
+
+    @Test
+    // Проверяет, что метод возвращает false при добавлении отрицательной суммы
+    public void testAddReturnsFalseForNegativeAmount() {
+        SavingAccount account = new SavingAccount(1000, 100, 5000, 5);
+        boolean result = account.add(-200);
+        Assertions.assertFalse(result, "Метод должен вернуть false при добавлении отрицательной суммы.");
+    }
+
+    @Test
+    // Проверяет, что баланс увеличивается на сумму добавления
+    public void testAddIncreasesBalance() {
+        SavingAccount account = new SavingAccount(1000, 100, 5000, 5);
+        account.add(200);
+        Assertions.assertEquals(1200, account.getBalance(), "Баланс должен увеличиться на сумму добавления.");
+    }
+
+    @Test
+    // Проверяет, что метод возвращает true при успешном добавлении
+    public void testAddReturnsTrue() {
+        SavingAccount account = new SavingAccount(1000, 100, 5000, 5);
+        boolean result = account.add(200);
+        Assertions.assertTrue(result, "Метод должен вернуть true при успешном добавлении.");
+    }
 }
