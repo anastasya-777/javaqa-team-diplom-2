@@ -139,4 +139,49 @@ public void testCreditAccountCreationWithNegativeCreditLimit() {
 
         Assertions.assertEquals("Баланс не может быть отрицательным", exception.getMessage());
     }
+
+     @Test
+    // Проверяет, что метод возвращает false для суммы 0
+    public void testPayWithZeroAmount() {
+        CreditAccount account = new CreditAccount(1000, 5000, 10);
+
+        boolean resultZero = account.pay(0);
+        Assertions.assertFalse(resultZero, "Метод должен возвращать false для суммы 0");
+    }
+
+    @Test
+    // Проверяет, что метод возвращает false для отрицательной суммы
+    public void testPayWithNegativeAmount() {
+        CreditAccount account = new CreditAccount(1000, 5000, 10);
+
+        boolean resultNegative = account.pay(-100);
+        Assertions.assertFalse(resultNegative, "Метод должен возвращать false для отрицательной суммы");
+    }
+
+    @Test
+    // Проверяет, что метод возвращает false для суммы 0
+    public void testAddWithZeroAmount() {
+        CreditAccount account = new CreditAccount(1000, 5000, 10);
+
+        boolean resultZero = account.add(0);
+        Assertions.assertFalse(resultZero, "Метод должен возвращать false для суммы 0");
+    }
+
+    @Test
+    // Проверяет, что метод возвращает false для отрицательной суммы
+    public void testAddWithNegativeAmount() {
+        CreditAccount account = new CreditAccount(1000, 5000, 10);
+
+        boolean resultNegative = account.add(-100);
+        Assertions.assertFalse(resultNegative, "Метод должен возвращать false для отрицательной суммы");
+    }
+
+    @Test
+    // Проверяет, что метод возвращает правильное значение кредитного лимита
+    public void testGetCreditLimit() {
+        CreditAccount account = new CreditAccount(1000, 5000, 10);
+
+        int creditLimit = account.getCreditLimit();
+        Assertions.assertEquals(5000, creditLimit, "Метод должен возвращать правильное значение кредитного лимита");
+    }
 }
