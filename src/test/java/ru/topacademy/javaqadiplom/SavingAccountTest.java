@@ -24,7 +24,7 @@ public class SavingAccountTest {
         SavingAccount account = new SavingAccount(
                 -2_000,
                 -1_000,
-                10_000,
+                -10_000,
                 5
         );
 
