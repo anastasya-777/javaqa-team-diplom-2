@@ -30,6 +30,11 @@ public class SavingAccount extends Account {
         this.maxBalance = maxBalance;
         this.rate = rate;
     }
+    // if (minBalance < 0) {
+    // throw new IllegalArgumentException(
+    //                "Минимальный баланс не может быть отрицательным, а у вас: " + minBalance);
+    // } - И так же про все остальные случаи
+
 
     /**
      * Операция оплаты с карты на указанную сумму.
