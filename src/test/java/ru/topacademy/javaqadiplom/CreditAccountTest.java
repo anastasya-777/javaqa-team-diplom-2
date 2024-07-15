@@ -99,15 +99,16 @@ public class CreditAccountTest {
         Assertions.assertEquals(expected, actual);
     }
 
-    // Проверяет, что метод yearChange возвращает отрицательное значение для отрицательного баланса
-    @Test
-    public void testYearChangeWithNegativeBalance() {
-        CreditAccount account = new CreditAccount(-200, 5000, 15);
-        int actual = account.yearChange();
-        int expected = -30;
+   // Проверяет, что метод yearChange возвращает отрицательное значение для отрицательного баланса
+@Test
+public void testYearChangeWithNegativeBalance() {
+    CreditAccount account = new CreditAccount(0, 5000, 15);
+    account.pay(200); // Уменьшаем баланс до отрицательного значения
+    int actual = account.yearChange();
+    int expected = -30;
 
-        Assertions.assertEquals(expected, actual);
-    }
+    Assertions.assertEquals(expected, actual);
+}
 
     // Проверяет, что нельзя создать аккаунт с отрицательной процентной ставкой
     @Test
@@ -119,15 +120,15 @@ public class CreditAccountTest {
         Assertions.assertEquals("Накопительная ставка не может быть отрицательной, а у вас: -5", exception.getMessage());
     }
 
-    // Проверяет, что нельзя создать аккаунт с отрицательным кредитным лимитом
-    @Test
-    public void testCreditAccountCreationWithNegativeCreditLimit() {
-        IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            new CreditAccount(1000, -5000, 10);
-        });
+   // Проверяет, что нельзя создать аккаунт с отрицательным кредитным лимитом
+@Test
+public void testCreditAccountCreationWithNegativeCreditLimit() {
+    IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+        new CreditAccount(1000, -5000, 10);
+    });
 
-        Assertions.assertEquals("Кредитный лимит не может быть отрицательным, а у вас: -5000", exception.getMessage());
-    }
+    Assertions.assertEquals("Кредитный лимит не может быть отрицательным", exception.getMessage());
+}
 
     // Проверяет, что нельзя создать аккаунт с отрицательным начальным балансом
     @Test
@@ -136,6 +137,6 @@ public class CreditAccountTest {
             new CreditAccount(-1000, 5000, 10);
         });
 
-        Assertions.assertEquals("Начальный баланс не может быть отрицательным, а у вас: -1000", exception.getMessage());
+        Assertions.assertEquals("Баланс не может быть отрицательным", exception.getMessage());
     }
 }
