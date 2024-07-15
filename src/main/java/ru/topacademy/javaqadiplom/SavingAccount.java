@@ -25,6 +25,26 @@ public class SavingAccount extends Account {
                     "Накопительная ставка не может быть отрицательной, а у вас: " + rate
             );
         }
+        if (minBalance < 0) {
+            throw new IllegalArgumentException(
+                    "Минимальный баланс не может быть отрицательным, а у вас: " + minBalance
+            );
+        }
+        if (minBalance > maxBalance) {
+            throw new IllegalArgumentException(
+                    "Минимальный баланс не может быть больше максимального, а у вас: " + minBalance + " > " + maxBalance
+            );
+        }
+        if (initialBalance < minBalance) {
+            throw new IllegalArgumentException(
+                    "Начальный баланс не может быть меньше минимального баланса, а у вас: " + initialBalance
+            );
+        }
+        if (initialBalance > maxBalance) {
+            throw new IllegalArgumentException(
+                    "Начальный баланс не может быть больше максимального баланса, а у вас: " + initialBalance
+            );
+        }
         this.balance = initialBalance;
         this.minBalance = minBalance;
         this.maxBalance = maxBalance;
@@ -45,12 +65,11 @@ public class SavingAccount extends Account {
         if (amount <= 0) {
             return false;
         }
-        balance = balance - amount;
-        if (balance > minBalance) {
-            return true;
-        } else {
+        if (balance - amount < minBalance) {
             return false;
         }
+        balance -= amount;
+        return true;
     }
 
     /**
@@ -69,12 +88,11 @@ public class SavingAccount extends Account {
         if (amount <= 0) {
             return false;
         }
-        if (balance + amount < maxBalance) {
-            balance = amount;
-            return true;
-        } else {
+        if (balance + amount > maxBalance) {
             return false;
         }
+        balance += amount;
+        return true;
     }
 
     /**
@@ -86,7 +104,7 @@ public class SavingAccount extends Account {
      */
     @Override
     public int yearChange() {
-        return balance / 100 * rate;
+        return (balance * rate) / 100;
     }
 
     public int getMinBalance() {
