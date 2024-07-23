@@ -35,4 +35,8 @@ public class Account {
     public void setRate(int rate) {
         this.rate = rate;
     }
+
+    public void setBalance(int balance) {
+        this.balance = balance;
+    }
 }
